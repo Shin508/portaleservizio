@@ -1,0 +1,537 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polizia di Stato</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/modal.css">
+    <link rel="icon" type="image/x-icon" href="../../immagini/araldo_polizia_pieno.svg">
+    
+</head>
+<body>
+    <div class="sidebar active">
+        <div class="top">
+           <div class="logo">
+           <object type="image/svg+xml" data="../../immagini/araldo_polizia_pieno.svg" width="40" height="40">
+                
+            </object>
+            <span> Polizia di Stato</span>
+           </div>
+        </div>
+        <br>
+        <div class="user">
+                <img src="https://cdn.discordapp.com/avatars/851447210079289365/5283e9b88b1cd6e6d24ee7d6c6592d6c.jpg" alt="" class="user-img">
+                <div class="user-info">
+                    <p class="bold">shinichi701</p>
+                    <p class="bold" style="font-size:12px;color:#06c">851447210079289365</p>
+                </div>
+        </div>
+
+
+        <ul>
+            <li>
+                <a href="../../pagine/area privata/">
+                    <i class='bx bx-home-alt' ></i>
+                    <span class="nav-item">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="../../pagine/turni/">
+                <i class='bx bx-calendar'></i>
+                    <span class="nav-item">Turni</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="../../pagine/ufficio/">
+                <i class='bx bx-desktop'></i>
+                    <span class="nav-item">Ufficio</span>
+                </a>
+            </li>
+            
+            <li>
+                    <a href="../../pagine/denunce/">
+                    <i class="bx bx-task" ></i>
+                        <span class="nav-item">Denunce</span>
+                    </a>
+                </li>    <li>
+                <a href="../../pagine/fedine/">
+                    <i class="bx bx-file" ></i>
+                    <span class="nav-item">Pulizia fedine</span>
+                </a>
+            </li>
+           
+            
+            
+
+          
+            
+<li>
+                <a href="../../pagine/profilo/">
+                <i class='bx bxs-user-detail'></i> 
+                    <span class="nav-item">Profilo</span>
+                </a>
+            </li>
+            
+                 
+           
+
+            <li>
+                <a href="../../lavoro/logout.php">
+                    <i class="bx bx-log-out"></i>
+                    <span class="nav-item">Logout</span>
+                </a>
+            </li>
+          
+        </ul>
+    </div>
+    
+    
+</body>
+</html><div class="modal fade" id="ferie" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDomandeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDomandeLabel">Comunica ferie</h5>
+
+      </div>
+      <div class="modal-body">
+        <!-- Form per l'aggiunta della domanda -->
+        <form onsubmit="sendFerie(event)" >
+            <p>
+                <input type="text" class="form-control"   required placeholder="Data inizio" onfocus="(this.type='date')" id="data_inizio">
+            </p>
+            <p>
+                <input type="text" class="form-control" required placeholder="Data fine" onfocus="(this.type='date')" id="data_fine">
+            </p>
+            <p>
+                <input type="text" class="form-control" required  placeholder="Motivazione" id="motiva">
+            </p>
+      </div>
+        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="myBtn" name="submit" value="" >Inserisci</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="responseModal" id="responseHeader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;background-color:#d1e7dd;border: 2px solid #badbcc;border-radius:0.375rem;color: #0f5132;">
+        <span><i class='bx bxs-check-circle'></i> <span class="modal-title" id="modalMessage"></span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    async function sendFerie(ev) {
+  var nameValue = "shinichi701";
+        ev.preventDefault();
+
+          const senderData1 = document.getElementById('data_inizio').value;
+
+        const senderData2 = document
+          .getElementById('data_fine').value;
+        const senderData3 = document
+          .getElementById('motiva').value;
+          
+          function convertiDataItaliano(data) {
+                const [anno, mese, giorno] = data.split('-');
+                return `${giorno}/${mese}/${anno}`;
+            }
+
+    // Converti le date nel formato italiano
+    const dataInizioItaliano = convertiDataItaliano(senderData1);
+    const dataFineItaliano = convertiDataItaliano(senderData2);
+
+        const webhookBody = {
+              content: '<@&918110756560592906> <@&918110885237633044>',
+              embeds: [{
+              title: '',
+              color: 0x132342,
+              fields: [
+    { name: '', value: '```L’ operatore ' + nameValue + ' ha comunicato i giorni di ferie che vanno da:```' },
+    { name: '', value: '```' + dataInizioItaliano + ' - ' + dataFineItaliano +'```'},
+    { name: '', value: "```Riguardante la motivazione:\n" + senderData3 + "```"}
+],
+
+            author: {
+                name: 'Modulo Ferie',
+                icon_url: 'https://cdn.discordapp.com/attachments/1071134789584830574/1114844055508095017/Untitled-1.png'
+            }
+              }],
+              };
+
+        const webhookUrl = 'https://discord.com/api/webhooks/1073642915332636735/EooIVzXDqvNk0DO8v0Bxwgy7pGXUhgTfjOzB1vIMIjUd3IktntETgB1yMquVo0wvIIGX';
+
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(webhookBody),
+        });
+
+        const modalMessage = document.getElementById('modalMessage');
+        const responseModal = new bootstrap.Modal(document.getElementById('responseModal'));
+  responseModal.show();
+
+  const responseHeader = document.getElementById('responseHeader');
+if (response.ok) {
+  modalMessage.textContent = 'Le ferie sono state comunicate ai funzionari!';
+} else {
+  modalMessage.textContent = 'Le ferie non sono state comunicate, riprova';
+  responseHeader.style.backgroundColor = '#fff3cd';
+  responseHeader.style.borderColor = '#ffecb5';
+  responseHeader.style.color = '#664d03';
+}
+}
+</script><div class="modal fade" id="teaser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDomandeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDomandeLabel">Richiedi abilitazione per utilizzo teaser</h5>
+
+      </div>
+      <div class="modal-body">
+        <!-- Form per l'aggiunta della domanda -->
+        <form onsubmit="sendTeaser(event)" >
+            <p>
+                <input type="text" class="form-control" required  placeholder="Motivazione" id="motivazione">
+            </p>
+      </div>
+        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="myBtn" name="submit" value="" >Inserisci</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="responseModal" id="responseHeader" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;background-color:#d1e7dd;border: 2px solid #badbcc;border-radius:0.375rem;color: #0f5132;">
+        <span><i class='bx bxs-check-circle'></i> <span class="modal-title" id="modalMessage"></span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    async function sendTeaser(ev) {
+  var nameValue = "shinichi701";
+        ev.preventDefault();
+        const senderData = document
+          .getElementById('motivazione').value;
+
+
+        const webhookBody = {
+              content: '<@&988929194425720902>',
+              embeds: [{
+              title: '',
+              color: 0x132342,
+              fields: [
+    { name: '', value: '```L’ operatore ' + nameValue + ' ha richiesto l’abilitazione all’ utilizzo del teaser con la seguente motivzione:```' },
+    { name: '', value: "```" + senderData + "```"}
+],
+
+            author: {
+                name: 'Centro formazione operatori teaser',
+                icon_url: 'https://cdn.discordapp.com/attachments/1071134789584830574/1114844055508095017/Untitled-1.png'
+            }
+              }],
+              };
+
+        const webhookUrl = 'https://discord.com/api/webhooks/988921189319725067/RrYK5USH2QcjB_PWjfoa-KMOMCbakHlzRkY4WFAKhbxhqMIEo9boZb0bTv-0G_oHyZ82';
+
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(webhookBody),
+        });
+
+        const modalMessage = document.getElementById('modalMessage');
+        const responseModal = new bootstrap.Modal(document.getElementById('responseModal'));
+  responseModal.show();
+
+  const responseHeader = document.getElementById('responseHeader');
+if (response.ok) {
+  modalMessage.textContent = 'Richiesta abilitazione inviata!';
+} else {
+  modalMessage.textContent = 'Richiesta abilitazione non inviata, riprova';
+  responseHeader.style.backgroundColor = '#fff3cd';
+  responseHeader.style.borderColor = '#ffecb5';
+  responseHeader.style.color = '#664d03';
+}
+}
+</script><div class="modal fade" id="scelta_reparti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDomandeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDomandeLabel">Richiedi abilitazione reparto interno</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Form per l'aggiunta della domanda -->
+        <form onsubmit="scelta_reparti(event)">
+          <p>
+            <select id="reparti" class="form-control">
+              <option value="<@&950097445482803240>">Reparto Prevenzione Crimine</option>
+              <option value="<@&920762773397446706>">Centrale Operativa</option>
+              <option value="<@&961372077003247696>">Polizia Scientifica</option>
+              <option value="<@&996439791606435930>">Reparto Cinofili</option>
+              <option value="<@&1211736665287294987>">Servizio Aereo</option>
+              <option value="<@&1232043098746523690>">Reparto Mobile</option>
+              <!--<option value="<@&1232702444006277213>">Sommozzatori</option>-->
+              <option value="<@&1237444170386378766>">Nucleo Operativo Centrale Sicurezza</option>
+              <option value="<@&1242885691373785220>">Polizia di Frontiera</option>
+              <option value="<@&1242885620712603688>">Artificieri</option>
+            </select>
+          </p>
+          <p>
+            <input type="text" class="form-control" required placeholder="Motivazione" id="m">
+          </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+        <button type="submit" class="btn btn-primary" id="myBtn" name="submit" value="">Inserisci</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;background-color:#d1e7dd;border: 2px solid #badbcc;border-radius:0.375rem;color: #0f5132;" id="responseHeader">
+        <span><i class='bx bxs-check-circle'></i> <span class="modal-title" id="modalMessage"></span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function getCookie(name) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+async function scelta_reparti(ev) {
+  var nameValue = "shinichi701";
+  ev.preventDefault();
+  const senderData = document.getElementById('m').value;
+  const senderData1 = document.getElementById('reparti').value;
+  const repartoSelect = document.getElementById('reparti');
+  const repartoText = repartoSelect.options[repartoSelect.selectedIndex].text;
+
+  // Recupera le scelte precedenti dal cookie
+  let scelte = JSON.parse(getCookie('scelte') || '[]');
+
+  // Aggiungi la nuova scelta all'array
+  scelte.push({ reparto: repartoText, motivazione: senderData });
+
+  // Salva le scelte aggiornate nel cookie
+  setCookie('scelte', JSON.stringify(scelte));
+
+  const webhookBody = {
+    content: senderData1,
+    embeds: [{
+      title: '',
+      color: 0x132342,
+      fields: [
+        { name: '', value: '```L’ operatore ' + nameValue + ' ha richiesto l’abilitazione al reparto selezionato con la seguente motivazione:```' },
+        { name: '', value: "```" + senderData + "```" }
+      ],
+      author: {
+        name: 'Direzione centrale per gli affari generali e le politiche del personale della Polizia di Stato - Servizio concorsi',
+        icon_url: 'https://cdn.discordapp.com/attachments/1071134789584830574/1114844055508095017/Untitled-1.png'
+      }
+    }],
+  };
+
+  const webhookUrl = 'https://discord.com/api/webhooks/1085592025820303381/sNHf1PxrJdw2G-hrcCwHczr6WVtoq_s_qZuWpBmyb8r9Pee_8htm721Os_Sum0HTkBjR';
+
+  const response = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(webhookBody),
+  });
+
+  const modalMessage = document.getElementById('modalMessage');
+  const responseModal = new bootstrap.Modal(document.getElementById('responseModal'));
+
+  if (response.ok) {
+    modalMessage.textContent = 'Richiesta abilitazione inviata!';
+  } else {
+    modalMessage.textContent = 'Richiesta abilitazione non inviata, riprova';
+    const responseHeader = document.getElementById('responseHeader');
+    responseHeader.style.backgroundColor = '#fff3cd';
+    responseHeader.style.borderColor = '#ffecb5';
+    responseHeader.style.color = '#664d03';
+  }
+  responseModal.show();
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<div class="modal fade" id="verbale_servizio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDomandeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDomandeLabel">Verbale di servizio</h5>
+
+      </div>
+      <div class="modal-body">
+        <!-- Form per l'aggiunta della domanda -->
+        <form action="../../lavoro/genera_verbale.php" method="post" >
+            <p>
+                <input type="text" class="form-control"  required placeholder="Capo Equipaggio" name="capo_eq"  id="titolo">
+            </p>
+            <p>
+                <input type="text" class="form-control" required placeholder="Autista" name="autista" id="data">
+            </p>
+            <p>
+                <input type="text" class="form-control" required placeholder="3° Operatore (se presente)" name="terzo_op" id="data">
+            </p>
+            <p>
+                <input type="text" class="form-control" required placeholder="Modello mezzo"  name="modello" id="ora">
+            </p>
+            <p>
+                <input type="text" class="form-control" required placeholder="Targa veicolo" name="targa" id="data">
+            </p>
+            <p>
+                <input type="text" class="form-control" required placeholder="Nominativo radio" name="n_radio" >
+            </p>
+            <p>
+               <textarea class="form-control" required placeholder="Note personali" name="note_personali"></textarea>
+            </p>
+            <p>
+               <textarea class="form-control" required placeholder="Note di servizio" name="note_servizio"></textarea>
+            </p>
+      </div>
+        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-primary"  id="myBtn" name="submit" value="" >Inserisci</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .scrollbar {
+    overflow-y: auto;
+    max-height: 610px; /* Imposta l'altezza massima della scrollbar */
+}
+</style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="content">
+            
+            <h1 style="color:#01254e">Ufficio</h1>
+            <p class="bold" style="font-size:12px;color:#06c"> Qui trovi il cpp e cds e altri moduli utili...</p>
+            <form>
+                            <button type="button"  class="bottone_tabella"  data-bs-toggle="modal" data-bs-target="#ferie">
+                            Comunica ferie
+                            </button>
+                            <button type="button"  class="bottone_tabella" style="margin-left:1%;" data-bs-toggle="modal" data-bs-target="#teaser">
+                                Richiedi abilitazione teaser
+                                </button><button type="button"  class="bottone_tabella" style="margin-left:1%;" data-bs-toggle="modal" data-bs-target="#scelta_reparti">
+                                Scegli un reparto interno
+                                </button><button type="button"  class="bottone_tabella" style="margin-left:1%;" data-bs-toggle="modal" data-bs-target="#verbale_servizio">
+                                Verbale di fine servizio
+                                </button>                            
+                        </form>
+            <div  style="margin-top:1%;">
+            <input type="text" id="searchInput" placeholder="Cerca per intestazione" class="form-control" style="text-align:center;margin-bottom:1%;cursor:text;" onkeyup="searchUsers()">
+                <div class="messaggi">
+                
+                    <div class="titolo_messaggi" style="margin-bottom:1%;">
+                        Codice di Procedura Penale / Codice della Strada  
+                    
+                        <span class="icona"> 
+                        <i class='bx bx-list-ul'></i> 
+                        </span>
+                    </div>
+                    <div class="contenuto_messaggi scrollbar" >
+                    <table class="table" id="userTable"><thead><th style="border:none;">Articolo</th><th style="border:none;">Livello</th><th style="border:none;">Intestazione</th><th style="border:none;">Descrizione</th><th style="border:none;">Sanz. Pecuniaria</th><th style="border:none;" >Reclusione</th><th style="border:none;">Note</th></thead><tbody><tr><td style="color:white">art.73 c.1 t.u.s.</td><td style="color:white">3</td><td style="color:white">Traffico e detenzione illeciti di sostanze stupefacenti o psicotrope da 5 a 49 dosi grezze*</td><td style="color:white">È punito chiunque coltiva, produce, fabbrica, estrae, raffina, vende, offre e mette in vendita, cede, distribuisce, commercia, trasporta, consegna per qualunque scopo sostanze stupefacenti grezze.</td><td style="color:white">€ 5.000,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art.73 c.2 t.u.s.</td><td style="color:white">3</td><td style="color:white">Traffico e detenzione illeciti di sostanze stupefacenti o psicotrope oltre 49 dosi grezze*</td><td style="color:white">È punito chiunque coltiva, produce, fabbrica, estrae, raffina, vende, offre e mette in vendita, cede, distribuisce, commercia, trasporta, consegna per qualunque scopo sostanze stupefacenti grezze.</td><td style="color:white">€ 5.000,00</td><td style="color:white">6 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art.73 c.3 t.u.s.</td><td style="color:white">2</td><td style="color:white">Traffico e detenzione illeciti di sostanze stupefacenti o psicotrope da 5 a 49 dosi processate*</td><td style="color:white">È punito chiunque coltiva, produce, fabbrica, estrae, raffina, vende, offre e mette in vendita, cede, distribuisce, commercia, trasporta, consegna per qualunque scopo sostanze stupefacenti processate.</td><td style="color:white">€ 10.000,00</td><td style="color:white">8 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art.73 c.4 t.u.s.</td><td style="color:white">2</td><td style="color:white">Traffico e detenzione illeciti di sostanze stupefacenti o psicotrope oltre 49 dosi processate*</td><td style="color:white">È punito chiunque coltiva, produce, fabbrica, estrae, raffina, vende, offre e mette in vendita, cede, distribuisce, commercia, trasporta, consegna per qualunque scopo sostanze stupefacenti processate.</td><td style="color:white">€ 10.000,00</td><td style="color:white">10 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art.90 c.1</td><td style="color:white">2</td><td style="color:white">Trasporto di sostanze stupefacenti o psicotrope (trasporto PICCOLO)</td><td style="color:white">È punito chiunque trasporta e/o consegna per qualunque scopo sostanze stupefacenti non processate.</td><td style="color:white">€ 10.000,00</td><td style="color:white">10 anni</td><td style="color:white">20 anni (con sparatoria)</td></tr><tr><td style="color:white">art.90 c.2</td><td style="color:white">1</td><td style="color:white">Trasporto di sostanze stupefacenti o psicotrope (trasporto GRANDE)</td><td style="color:white">È punito chiunque trasporta e/o consegna per qualunque scopo sostanze stupefacenti non processate.</td><td style="color:white">€ 15.000,00</td><td style="color:white">20 anni</td><td style="color:white">30 anni (con sparatoria)</td></tr><tr><td style="color:white">art.90 c.3</td><td style="color:white">1</td><td style="color:white">Trasporto di sostanze stupefacenti LSD</td><td style="color:white">È punito chiunque trasporta e/o consegna per qualunque scopo sostanze stupefacenti non processate.</td><td style="color:white">€ 15.000,00</td><td style="color:white">15 anni</td><td style="color:white">25anni (con sparatoria)</td></tr><tr><td style="color:white">art. 368 c.p.</td><td style="color:white">4</td><td style="color:white">Calunnia</td><td style="color:white">È punito chiunque, con denuncia, querela, richiesta o istanza, anche se anonima o sotto falso nome, diretta all'autorità giudiziaria, incolpa di un reato taluno che egli sa innocente, ovvero simula a carico di lui le tracce di un reato.</td><td style="color:white">€ 2.890,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 422 c.p.</td><td style="color:white">1</td><td style="color:white">Strage</td><td style="color:white">È punito chiunque, al fine di uccidere, compie atti tali da porre in pericolo la pubblica incolumità. (5 o più permadeath)</td><td style="color:white">///</td><td style="color:white">ergastolo/processo</td><td style="color:white"></td></tr><tr><td style="color:white">art. 422 c.2 c.p.</td><td style="color:white">1</td><td style="color:white">Tentata strage</td><td style="color:white">È punito chiunque compie atti idonei, diretti in modo non equivoco,  a porre in pericolo la pubblica incolumità, se l'azione non si compie.</td><td style="color:white">€ 9.840,00</td><td style="color:white">20 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 575 c.p.</td><td style="color:white">1</td><td style="color:white">Omicidio </td><td style="color:white">È punito chiunque cagiona la morte di un uomo. (permadeath)</td><td style="color:white">///</td><td style="color:white">ergastolo/processo</td><td style="color:white"></td></tr><tr><td style="color:white">art. 575 c.2 c.p.</td><td style="color:white">1</td><td style="color:white">Tentato omicidio</td><td style="color:white">È punito chiunque compie atti idonei, diretti in modo non equivoco,  a cagionare la morte di un uomo, se l'azione non si compie.</td><td style="color:white">€ 18.710,00</td><td style="color:white">15 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 580 c.p.</td><td style="color:white">2</td><td style="color:white">Istigazione o aiuto al suicidio</td><td style="color:white">È punito chiunque determina altri al suicidio o rafforza l'altrui proposito di suicidio, ovvero ne agevola in qualsiasi modo l'esecuzione.</td><td style="color:white">€ 6.450,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 581 c.p.</td><td style="color:white">4</td><td style="color:white">Percosse</td><td style="color:white">È punito chiunque percuote taluno, se dal fatto non deriva una malattia nel corpo o nella mente, a querela della persona offesa.</td><td style="color:white">€ 5.000,00</td><td style="color:white">1 anno</td><td style="color:white"></td></tr><tr><td style="color:white">art. 582 c.p.</td><td style="color:white">4</td><td style="color:white">Lesioni</td><td style="color:white">È punito chiunque cagiona ad alcuno lesione personale, dalla quale deriva una malattia nel corpo o nella mente, a querela della persona offesa.</td><td style="color:white">€ 2.000,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 588 c.p.</td><td style="color:white">3</td><td style="color:white">Rissa</td><td style="color:white">È punito chiunque partecipa ad una rissa, se nella rissa taluno rimane ucciso o riporta lesione si applica la reclusione.</td><td style="color:white">€ 2.000,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 593 c.p.</td><td style="color:white">2</td><td style="color:white">Omissione di soccorso</td><td style="color:white">È punito chiunque, trovando abbandonato o smarrito un fanciullo minore degli anni dieci, o un'altra persona incapace di provvedere a se stessa, per malattia di mente o di corpo, per vecchiaia o per altra causa, omette di darne immediato avviso all'Autorità. Alla stessa pena soggiace chi, trovando un corpo umano che sia o sembri inanimato, ovvero una persona ferita o altrimenti in pericolo, omette di prestare l'assistenza occorrente o di darne immediato avviso all'Autorità.</td><td style="color:white">€ 6.250,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 595 c.p.</td><td style="color:white">4</td><td style="color:white">Diffamazione</td><td style="color:white">È punito chiunque, comunicando con più persone, offende l'altrui reputazione.</td><td style="color:white">€ 5.000,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 605 c.p.</td><td style="color:white">1</td><td style="color:white">Sequestro di persona</td><td style="color:white">È punito chiunque privi taluno della libertà personale.</td><td style="color:white">€ 16.945,00</td><td style="color:white">8 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 612 c.p.</td><td style="color:white">3</td><td style="color:white">Minaccia</td><td style="color:white">È punito chiunque minaccia ad altri un ingiusto danno, a querela della persona offesa.</td><td style="color:white">€ 6.850,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 612 c.2 c.p.</td><td style="color:white">2</td><td style="color:white">Minaccia a mano armata</td><td style="color:white">È punito chiunque minaccia ad altri un ingiusto danno, per mezzo di armi od oggetti contundenti.</td><td style="color:white">€ 11.675,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 629 c.p.</td><td style="color:white">2</td><td style="color:white">Estorsione</td><td style="color:white">È punito chiunque, mediante violenza o minaccia, costringendo taluno a fare o ad omettere qualche cosa, procura a sé o ad altri un ingiusto profitto con altrui danno.</td><td style="color:white">€ 23.540,00</td><td style="color:white">7 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 644 c.p.</td><td style="color:white">2</td><td style="color:white">Usura</td><td style="color:white">È punito chiunque, si fa dare o promettere, sotto qualsiasi forma, per sé o per altri, in corrispettivo di una prestazione di denaro o di altra utilità, interessi o altri vantaggi usurari.</td><td style="color:white">€ 22.450,00</td><td style="color:white">8 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 659 c.p.</td><td style="color:white">4</td><td style="color:white">Disturbo delle occupazioni o del riposo delle persone</td><td style="color:white">È punito chiunque, mediante schiamazzi o rumori, ovvero abusando di strumenti sonori o di segnalazioni acustiche ovvero suscitando o non impedendo strepiti di animali, disturba le occupazioni o il riposo delle persone, ovvero gli spettacoli, i ritrovi o i trattenimenti pubblici.</td><td style="color:white">€ 865,00</td><td style="color:white">3 mesi</td><td style="color:white"></td></tr><tr><td style="color:white">art. 30 l. n. 157/1992</td><td style="color:white">3</td><td style="color:white">Furto venatorio</td><td style="color:white">È punito chiunque caccia nei tempi e modi non consentiti dallo stato in possesso di regolare porto d'armi e licenza di caccia.</td><td style="color:white">€ 6.450,00</td><td style="color:white">20 mesi</td><td style="color:white"></td></tr><tr><td style="color:white">art. 31 l. n. 157/1992</td><td style="color:white">3</td><td style="color:white">Bracconaggio</td><td style="color:white">È punito chiunque caccia senza detenere regolare porto d'armi e licenza di caccia.</td><td style="color:white">€ 10.450,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 311 c 2</td><td style="color:white">3</td><td style="color:white">Possesso di carne illegale</td><td style="color:white">È punito chiunque caccia o pesca carne non legale.</td><td style="color:white">€ 5.000,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art 527 c.p.</td><td style="color:white">4</td><td style="color:white">Atti osceni</td><td style="color:white">È punito chiunque, in luogo pubblico o aperto o esposto al pubblico, compie atti osceni.</td><td style="color:white">€ 20.000,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 614 c.p.</td><td style="color:white">3</td><td style="color:white">Violazione di domicilio</td><td style="color:white">Chiunque s'introduce nell'abitazione altrui, o in un altro luogo di privata dimora, o nelle appartenenze di essi, contro la volontà espressa o tacita di chi ha il diritto di escluderlo, ovvero vi s'introduce clandestinamente o con l'inganno, è punito con la reclusione da uno a quattro anni. Alla stessa pena soggiace chi si trattiene nei detti luoghi contro l'espressa volontà di chi ha il diritto di escluderlo, ovvero vi si trattiene clandestinamente o con inganno. Il delitto è punibile a querela della persona offesa.</td><td style="color:white">€ 4.850,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 624 c.p.</td><td style="color:white">3</td><td style="color:white">Furto di veicolo generico</td><td style="color:white">È punito chiunque si impossessa di veicolo altrui, sottraendolo a chi lo detiene, al fine di trarne profitto per sè o per altri.</td><td style="color:white">€ 3.000,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 624 bis c.p.</td><td style="color:white">2</td><td style="color:white">Furto di veicolo (POLIZIA LOCALE)</td><td style="color:white">È punito chiunque si impossessa di veicolo altrui, sottraendolo a chi lo detiene, al fine di trarne profitto per sè o per altri.</td><td style="color:white">€ 5.000,00</td><td style="color:white">NON CONSEGNATO 12 mesi (senza sparatoria)  </td><td style="color:white">CONSEGNATO 5 anni (senza sparatoria) 7 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.1. c.p.</td><td style="color:white">1</td><td style="color:white">Rapina a negozietto</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente presso i negozietti.</td><td style="color:white">€ 5.000,00</td><td style="color:white">10 anni (senza sparatoria)</td><td style="color:white">12 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.2. c.p.</td><td style="color:white">1</td><td style="color:white">Rapina a gioielleria piccola</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente presso la gioielleria piccola.</td><td style="color:white">€ 10.000,00</td><td style="color:white">15 anni (senza sparatoria)</td><td style="color:white">17 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.3. c.p.</td><td style="color:white">1</td><td style="color:white">Rapina a gioielleria grande</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente presso la gioielleria grande.</td><td style="color:white">€ 10.000,00</td><td style="color:white">20 anni (senza sparatoria)</td><td style="color:white">30 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.4. c.p.</td><td style="color:white">1</td><td style="color:white">Rapina a banca fleeca</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente presso le banche fleeca.</td><td style="color:white">€ 10.000,00</td><td style="color:white">20 anni (senza sparatoria)</td><td style="color:white">30 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.5. c.p.</td><td style="color:white">1</td><td style="color:white">Rapina a banca pacific</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente presso la banca pacific.</td><td style="color:white">€ 10.000,00</td><td style="color:white">30 anni (senza sparatoria)</td><td style="color:white">40 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.6. c.p.</td><td style="color:white">1</td><td style="color:white">Assalto a camion blindato</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente all'interno dei camion blindati.</td><td style="color:white">€ 4.850,00</td><td style="color:white">12 anni (senza sparatoria)</td><td style="color:white">20 anni (con sparatoria)</td></tr><tr><td style="color:white">art. 628 c.7. c.p.</td><td style="color:white">1</td><td style="color:white">Assalto a camion trasporto uranio</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, mediante violenza o minaccia, si impossessa della cosa mobile presente all'interno dei camion di trasporto uranio.</td><td style="color:white">€ 20.000,00</td><td style="color:white">40 anni (senza sparatoria)</td><td style="color:white">50 anni (con sparatoria)</td></tr><tr><td style="color:white">art.  633 c.p.</td><td style="color:white">3</td><td style="color:white">Invasione di terreni o edifici</td><td style="color:white">È punito chiunque invade arbitrariamente terreni o edifici altrui, pubblici o privati, al fine di occuparli o di trarne profitto, a querela della persona offesa. </td><td style="color:white">€ 1.032,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 648 c.p.</td><td style="color:white">2</td><td style="color:white">Ricettazione</td><td style="color:white">È punito chiunque, al fine di procurare a sé o ad altri un profitto, acquista, riceve od occulta denaro o cose provenienti da un qualsiasi delitto, o comunque si intromette nel farle acquistare, ricevere od occultare. (Chiunque possiede più di 3 rolex e/o 3 gioielli)</td><td style="color:white">€ 2.580,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 85 T.U.L.P.S.</td><td style="color:white">4</td><td style="color:white">Comparsa in luoghi aperti al pubblico con volto travisato</td><td style="color:white">È vietato comparire mascherato in luogo pubblico.</td><td style="color:white">€ 5.000,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 290 c.p.</td><td style="color:white">4</td><td style="color:white">Vilipendio</td><td style="color:white">È punito chiunque pubblicamente vilipende la Repubblica, le Assemblee legislative o una di queste, ovvero il Governo o la Corte costituzionale o l'ordine giudiziario, le Forze Armate dello Stato o quelle della liberazione.</td><td style="color:white">€ 5.000,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 323 c.p.</td><td style="color:white">1</td><td style="color:white">Abuso d'ufficio</td><td style="color:white">È punito il pubblico ufficiale o l'incaricato di pubblico servizio che, nello svolgimento delle funzioni o del servizio, in violazione di specifiche regole di condotta espressamente previste dalla legge o da atti aventi forza di legge e dalle quali non residuino margini di discrezionalità, ovvero omettendo di astenersi in presenza di un interesse proprio o di un prossimo congiunto, intenzionalmente procura a sè o ad altri un ingiusto vantaggio patrimoniale ovvero arreca ad altri un danno ingiusto.</td><td style="color:white">€ 5.560,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 336 c.p.</td><td style="color:white">2</td><td style="color:white">Violenza o minaccia a pubblico ufficiale</td><td style="color:white">È punito chiunque usa violenza o minaccia a un pubblico ufficiale o ad un incaricato di un pubblico servizio, per costringerlo a fare un atto contrario ai propri doveri, o ad omettere un atto dell'ufficio o del servizio.</td><td style="color:white">€ 1.558,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 337 c.p.</td><td style="color:white">2</td><td style="color:white">Resistenza a pubblico ufficiale</td><td style="color:white">È punito chiunque usa violenza o minaccia per opporsi a un pubblico ufficiale o ad un incaricato di pubblico servizio, mentre compie un atto di ufficio o di servizio, o a coloro che, richiesti, gli prestano assistenza.</td><td style="color:white">€ 1.850,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 340 c.p.</td><td style="color:white">3</td><td style="color:white">Interruzione di pubblico servizio</td><td style="color:white">È punito chiunque cagiona una interruzione o turba la regolarità di un ufficio o servizio pubblico o di un servizio di pubblica necessità.</td><td style="color:white">€ 5.850,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 341 bis c.p.</td><td style="color:white">2</td><td style="color:white">Oltraggio a pubblico ufficiale</td><td style="color:white">È punito chiunque, in luogo pubblico o aperto al pubblico e in presenza di più persone, offende l'onore ed il prestigio di un pubblico ufficiale mentre compie un atto d'ufficio ed a causa o nell'esercizio delle sue funzioni.</td><td style="color:white">€ 3.260,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 372 c.p.</td><td style="color:white">2</td><td style="color:white">Falsa testimonianza</td><td style="color:white">È punito chiunque, deponendo come testimone innanzi all'Autorità giudiziaria, afferma il falso o nega il vero, ovvero tace, in tutto o in parte, ciò che sa intorno ai fatti sui quali è interrogato.</td><td style="color:white">€ 3.200,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 377 c.p.</td><td style="color:white">2</td><td style="color:white">Intralcio alla giustizia</td><td style="color:white">È punito chiunque offre o promette denaro o altra utilità alla persona chiamata a rendere dichiarazioni davanti all'autorità giudiziaria.</td><td style="color:white">€ 5.600,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 385 c.p.</td><td style="color:white">2</td><td style="color:white">Evasione</td><td style="color:white">È punito chiunque, essendo legalmente arrestato o detenuto per un reato, evade.</td><td style="color:white">€ 14.560,00</td><td style="color:white">6 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 385 bis c.p.</td><td style="color:white">2</td><td style="color:white">Latitanza</td><td style="color:white">È punito chiunque, volontariamente, si sottrae alla custodia cautelare, agli arresti domiciliari, al divieto di espatrio, all'obbligo di dimora o a un ordine con cui si dispone la carcerazione.</td><td style="color:white">€ 18.570,00</td><td style="color:white">6 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 416 c.p.</td><td style="color:white">1</td><td style="color:white">Associazione a delinquere</td><td style="color:white">Sono puniti coloro che promuovono o costituiscono od organizzano un'associazione di tre o più persone allo scopo di commettere più delitti.</td><td style="color:white">€ 16.780,00</td><td style="color:white">12 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 416 bis c.p.</td><td style="color:white">1</td><td style="color:white">Associazione a delinquere di stampo mafioso</td><td style="color:white">Sono puniti coloro che promuovono o costituiscono od organizzano un'associazione di tre o più persone allo scopo di commettere più delitti avvalendosi della forza di intimidazione, del vincolo associativo e della condizione di assoggiettamento e di omertà che ne deriva per commettere delitti, per acquisire in modo diretto o indiretto la gestione o comunque il controllo di attività economiche, di concessioni, di autorizzazioni, appalti e servizi pubblici o per realizzare profitti o vantaggi ingiusti per sé o per altri.</td><td style="color:white">€ 22.340,00</td><td style="color:white">28 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 495 c.p.</td><td style="color:white">3</td><td style="color:white">Falsa attestazione</td><td style="color:white">È punito chiunque dichiara o attesta falsamente al pubblico ufficiale l'identità, lo stato o altre qualità della propria o dell'altrui persona.</td><td style="color:white">€ 2.245,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 498 c.p.</td><td style="color:white">3</td><td style="color:white">Usurpazione di titoli ed onori</td><td style="color:white">Chiunque, fuori dei casi previsti dall'articolo 497 ter, abusivamente porta in pubblico la divisa o i segni distintivi di un ufficio o impiego pubblico, o di un Corpo politico, amministrativo o giudiziario, ovvero di una professione per la quale è richiesta una speciale abilitazione dello Stato, ovvero indossa abusivamente in pubblico l'abito ecclesiastico.</td><td style="color:white">€ 929,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 527 c.p.</td><td style="color:white">4</td><td style="color:white">Atti osceni</td><td style="color:white">È punito chiunque, in luogo pubblico o aperto o esposto al pubblico, compie atti osceni.</td><td style="color:white">€ 5.560,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 650 c.p.</td><td style="color:white">2</td><td style="color:white">Inosservanza dei provvedimenti dell'Autorità</td><td style="color:white">È punito chiunque non osserva un provvedimento legalmente dato dall'Autorità per ragione di giustizia o di sicurezza pubblica, o d'ordine pubblico o d'igiene.</td><td style="color:white">€ 5.670,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 651 c.p.</td><td style="color:white">3</td><td style="color:white">Rifiuto di indicazioni sulla propria identità personale.</td><td style="color:white">È punito chiunque, richiesto da un pubblico ufficiale nell'esercizio delle sue funzioni, rifiuta di dare indicazioni sulla propria identità personale, sul proprio stato, o su altre qualità personali.</td><td style="color:white">€ 1.955,00</td><td style="color:white">4 mesi</td><td style="color:white"></td></tr><tr><td style="color:white">art. 658 c.p.</td><td style="color:white">4</td><td style="color:white">Procurato allarme presso l'Autorità</td><td style="color:white">È punito chiunque annunziando disastri, infortuni, o pericoli inesistenti, suscita allarme presso l'Autorità, o presso enti o persone che esercitano un pubblico servizio.</td><td style="color:white">€ 940,00</td><td style="color:white">8 mesi</td><td style="color:white"></td></tr><tr><td style="color:white">art. 682 c.p.</td><td style="color:white">3</td><td style="color:white">Ingresso arbitrario in luoghi ove l'accesso è vietato nell'interesse militare dello Stato</td><td style="color:white">È punito chiunque si introduce in luoghi, nei quali l'accesso è vietato nell'interesse militare dello Stato, le disposizioni del presente articolo si applicano, altresì, agli immobili adibiti a sedi di ufficio, di reparto o a deposito di materiali dell'Amministrazione della pubblica sicurezza, il cui accesso è vietato per ragioni di sicurezza pubblica.</td><td style="color:white">€ 450,00</td><td style="color:white">2 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 8 D. Lgs. n. 74/2000</td><td style="color:white">2</td><td style="color:white">Emissione di fatture o altri documenti per operazioni inesistenti</td><td style="color:white">È punito chiunque al fine di consentire a terzi l'evasione delle imposte sui redditi o l'IVA, emette o rilascia fatture o altri documenti per operazioni inesistenti.</td><td style="color:white">totale delle fatture falsificate</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">D. Lgs. n. 58/2015</td><td style="color:white">2</td><td style="color:white">Evasione di fattura da €10.000,00 a €29.999,00</td><td style="color:white">È punito chiunque non paga una fattura emessa dall'Autorità dal valore compreso tra €10.000 e €29.999,00.</td><td style="color:white">50% delle fatture non pagate</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">D. Lgs. n. 58/2015</td><td style="color:white">2</td><td style="color:white">Evasione di fattura da €30.000,00 a €69.999,00</td><td style="color:white">È punito chiunque non paga una fattura emessa dall'Autorità dal valore compreso tra €30.000 e €69.999,00.</td><td style="color:white">50% delle fatture non pagate</td><td style="color:white">15 anni</td><td style="color:white"></td></tr><tr><td style="color:white">D. Lgs. n. 58/2015</td><td style="color:white">2</td><td style="color:white">Evasione di fattura da €70.000,00 a €99.999,00</td><td style="color:white">È punito chiunque non paga una fattura emessa dall'Autorità dal valore compreso tra €70.000 e €99.999,00.</td><td style="color:white">50% delle fatture non pagate</td><td style="color:white">25 anni</td><td style="color:white"></td></tr><tr><td style="color:white">D. Lgs. n. 58/2015</td><td style="color:white">2</td><td style="color:white">Evasione di fattura da oltre €100.000,00</td><td style="color:white">È punito chiunque non paga una fattura emessa dall'Autorità dal valore che supera €100.000,00.</td><td style="color:white">50% delle fatture non pagate</td><td style="color:white">50 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 216 c.p.</td><td style="color:white">1</td><td style="color:white">Bancarotta fraudolenta</td><td style="color:white">È punito, se è dichiarato fallito, l'imprenditore, che: 1) ha distratto, occultato, dissimulato, distrutto o dissipato in tutto o in parte i suoi beni ovvero, allo scopo di recare pregiudizio ai creditori, ha esposto o riconosciuto passività inesistenti; 2) ha sottratto, distrutto o falsificato, in tutto o in parte, con lo scopo di procurare a sé o ad altri un ingiusto profitto o di recare pregiudizi ai creditori, i libri o le altre scritture contabili o li ha tenuti in guisa da non rendere possibile la ricostruzione del patrimonio o del movimento degli affari;</td><td style="color:white">€ 112.540,00</td><td style="color:white">10 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 640 c.p.</td><td style="color:white">2</td><td style="color:white">Truffa</td><td style="color:white">È punito chiunque, con artifizi o raggiri, inducendo taluno in errore, procura a sé o ad altri un ingiusto profitto con altrui danno.</td><td style="color:white">€ 6.580,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 646 c.p.</td><td style="color:white">2</td><td style="color:white">Appropriazione indebita</td><td style="color:white">È punito chiunque, per procurare a sè o ad altri un ingiusto profitto, si appropria il denaro o la cosa mobile altrui di cui abbia, a qualsiasi titolo, il possesso, a querela della persona offesa.</td><td style="color:white">€ 8.750,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 648 bis c.p.</td><td style="color:white">2</td><td style="color:white">Riciclaggio</td><td style="color:white">È punito chiunque sostituisce o trasferisce denaro, beni o altre utilità provenienti da delitto; ovvero compie in relazione ad essi altre operazioni, in modo da ostacolare l'identificazione della loro provenienza delittuosa.</td><td style="color:white">€ 12.650,00</td><td style="color:white">12 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 708 c.p.</td><td style="color:white">2</td><td style="color:white">Possesso ingiustificato di valori</td><td style="color:white">È punito chiunque è colto in possesso di denaro o di oggetti di valore, o di altre cose non confacenti al suo stato, e dei quali non giustifichi la provenienza.</td><td style="color:white">€ 5.850,00</td><td style="color:white">4 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 435 c.p.</td><td style="color:white">1</td><td style="color:white">Fabbricazione o detenzione di materie esplodenti</td><td style="color:white">È punito chiunque, al fine di attentare alla pubblica incolumità, fabbrica, acquista o detiene dinamite o altre materie esplodenti, asfissianti, accecanti, tossiche o infiammabili, ovvero sostanze che servano alla composizione o alla fabbricazione di esse.</td><td style="color:white">€ 4.865,00</td><td style="color:white">10 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 697 c.p.</td><td style="color:white">1</td><td style="color:white">Detenzione abusiva di armi</td><td style="color:white">È punito chiunque detiene armi o caricatori soggetti a denuncia, o munizioni senza averne fatto denuncia all'Autorità, quando la denuncia è richiesta.</td><td style="color:white">€ 11.450,00</td><td style="color:white">12 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 697 c.2 c.p.</td><td style="color:white">1</td><td style="color:white">Detenzione di armi illegali</td><td style="color:white">È punito chiunque detiene armi, caricatori o munizioni illegali.</td><td style="color:white">€ 15.789,00</td><td style="color:white">15 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 1 c.n.</td><td style="color:white">4</td><td style="color:white">Conduzione di nave senza patente nautica</td><td style="color:white">È punito chiunque conduce una nave senza essere in possesso della patente nautica.</td><td style="color:white">€ 23.450,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 1 c.n.</td><td style="color:white">4</td><td style="color:white">Coduzione di mezzo aereo senza brevetto di volo</td><td style="color:white">È punito chiunque conduce un mezzo aereo senza essere in possesso del brevetto di volo.</td><td style="color:white">€ 26.450,00</td><td style="color:white">///</td><td style="color:white"></td></tr><tr><td style="color:white">art. 1099 c.n.</td><td style="color:white">2</td><td style="color:white">Rifiuto di obbedienza a nave o aereo da guerra</td><td style="color:white">È punito il comandante della nave o del velivolo che non obbedisce all'ordine di una nave o un aereo da guerra nazionale.</td><td style="color:white">€ 5.640,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 1100 c.n.</td><td style="color:white">1</td><td style="color:white">Resistenza o violenza contro nave o aereo da guerra</td><td style="color:white">È punito il comandante o l'ufficiale della nave o del velivolo, che commette atti di resistenza o di violenza contro una naveo un aereo da guerra nazionale.</td><td style="color:white">€ 11.560,00</td><td style="color:white">8 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 1101 c.n.</td><td style="color:white">2</td><td style="color:white">Imbarco di armi, munizioni o persone a scopo delittuoso</td><td style="color:white">È punito il comandante della nave, del galleggiante o dell'aeroporto, nazionali o stranieri, che imbarca armi, munizioni o persone, al fine di commettere contrabbando o altro delitto.</td><td style="color:white">€ 4.650,00</td><td style="color:white">3 anni</td><td style="color:white"></td></tr><tr><td style="color:white">art. 1102 c.n.</td><td style="color:white">2</td><td style="color:white">Navigazione in zone vietate</td><td style="color:white">È punito il comandante della nave o del galleggiante, nazionali o stranieri, che non osserva il divieto o il limite di navigazione; È punito il comandante dell’aeromobile nazionale o straniero, che viola il divieto di sorvolo.</td><td style="color:white">€ 8.750,00</td><td style="color:white">5 anni</td><td style="color:white"></td></tr></tbody></table>                    </div>  
+                </div>  
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+<script>
+     function searchUsers() {
+            // Prendi il valore di input di ricerca
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("userTable");
+            var rows = table.getElementsByTagName("tr");
+
+            // Loop attraverso le righe della tabella e nascondi quelle che non corrispondono alla ricerca
+            for (var i = 1; i < rows.length; i++) {
+                var reato = rows[i].getElementsByTagName("td")[2];
+                if (reato) {
+                    var textValue = reato.textContent || reato.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+ 
+</script>
+</html>
